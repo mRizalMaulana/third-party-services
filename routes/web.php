@@ -14,3 +14,5 @@ $router->group(['prefix' => 'platform', 'as' => 'platform'], function () use ($r
         'as' => 'add', 'uses' => 'PlatformController@addPlatform'
     ]);
 });
+
+$router->post('send-mail', 'MailController@send');

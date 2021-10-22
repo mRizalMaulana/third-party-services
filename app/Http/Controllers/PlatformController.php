@@ -25,6 +25,10 @@ class PlatformController extends Controller
         try {
             $validator = Validator::make($request->all(), [
                 'platform_name' => 'required|string',
+                'platform_url'  => 'required|url',
+                'phone' => 'required',
+                'email' => 'required|email',
+                'address' => 'required',
             ], [
                 'platform_name.required' => 'platform name is required!',
                 'platform_name.string' => 'platform name must be a string'
@@ -34,12 +38,25 @@ class PlatformController extends Controller
                 return response()->json(['status' => false, 'message' => $validator->errors()->all()]);
             }
 
-            $platformName = $request->platform_name;
-            $platfomFileJson = Storage::get('platform.json');
-            $platformArray = json_decode($platfomFileJson, true);
-            $dataPlatform = ['platform_name' => $platformName];
-            array_push($platformArray, $dataPlatform);
-            $platformJson = json_encode($platformArray);
+            $allDataPlatform = [];
+
+            $isFileExist = Storage::exists('platform.json');
+            if ($isFileExist) {
+                $allDataPlatformJson = Storage::get('platform.json');
+                $allDataPlatform = json_decode($allDataPlatformJson, true);
+            }
+
+            if (array_key_exists($request->platform_name, $allDataPlatform)) {
+                return response()->json(['status' => false, 'message' => 'data platform already exist']);
+            }
+
+            $allDataPlatform[$request->platform_name] = [
+                'url' => $request->platform_url,
+                'phone' => $request->phone,
+                'email' => $request->email,
+                'address' => $request->address
+            ];
+            $platformJson = json_encode($allDataPlatform);
             Storage::put('platform.json', $platformJson);
 
             return response()->json(['status' => true, 'message' => 'platform name saved']);
