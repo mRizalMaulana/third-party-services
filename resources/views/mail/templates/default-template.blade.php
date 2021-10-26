@@ -21,7 +21,7 @@
                                     {{ strtoupper($mailData['platform_name']) }}
                                 </a>
                             </td>
-                            <td align="right"><h6 class="collapse">{{ $mailData['title'] }}</h6></td>
+                            <td align="right"><h6 class="collapse">{{ $mailData['title'] ? $mailData['title'] : 'INFORMATION' }}</h6></td>
                         </tr>
                     </table>
                 </div>
@@ -37,30 +37,33 @@
                 <div class="content">
                     @yield('main')
                 </div>
-                <div class="content">
-                    <table class="social" width="100%">
-                        <tr>
-                            <td>
-                                <table align="left" class="column">
-                                    <tr>
-                                        <td>
-                                            <h5 class="">Contact Info:</h5>
-                                            <p>
-                                                Phone: <strong>{{ $platformData['phone'] }}</strong>
-                                                <br/>
-                                                Email: <strong>{{ $platformData['email'] }}</strong>
-                                            </p>
-                                            <p>
-                                                {{ $platformData['address'] }}
-                                            </p>
-                                        </td>
-                                    </tr>
-                                </table>
-                                <span class="clear"></span>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
+
+                @if ($platformData)
+                    <div class="content">
+                        <table class="social" width="100%">
+                            <tr>
+                                <td>
+                                    <table align="left" class="column">
+                                        <tr>
+                                            <td>
+                                                <h5 class="">Contact Info:</h5>
+                                                <p>
+                                                    Phone: <strong>{{ $platformData['phone'] }}</strong>
+                                                    <br/>
+                                                    Email: <strong>{{ $platformData['email'] }}</strong>
+                                                </p>
+                                                <p>
+                                                    {{ $platformData['address'] }}
+                                                </p>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <span class="clear"></span>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                @endif
             </td>
             <td></td>
         </tr>

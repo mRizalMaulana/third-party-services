@@ -17,10 +17,13 @@ class MailController extends Controller
                 'platform_name' => 'required',
                 'recipient_mail' => 'required',
                 'recipient_name' => 'required',
-                'subject' => 'required'
+                'subject' => 'required',
+                'message' => 'required'
             ], [
+                'platform_name.required' => 'platform name is required!',
                 'recipient_mail.required' => 'recipient name is required!',
-                'recipient_name.required' => 'recipient name is required!'
+                'recipient_name.required' => 'recipient name is required!',
+                'subject.required' => 'subject is required'
             ]);
 
             if ($validator->fails()) {
@@ -39,11 +42,6 @@ class MailController extends Controller
             }
 
             $platformData = $allDataPlatform[$request->platform_name];
-
-//        Mail::send('mail.contents.default-mail', [], function ($message) {
-//            $message->to('rizal@digitalstrategy.id')->subject('testing rizal');
-//            $message->from('sales@importir.org');
-//        });
 
             Mail::to($request->recipient_mail)->send(new DefaultMail($request->all(), $platformData));
 
