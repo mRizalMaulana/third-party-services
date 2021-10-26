@@ -16,3 +16,5 @@ $router->group(['prefix' => 'platform', 'as' => 'platform'], function () use ($r
 });
 
 $router->post('send-mail', 'MailController@send');
+
+$router->post('send-short-message', 'ShortMessageController@send');
